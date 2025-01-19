@@ -1,5 +1,6 @@
 package denys.diomaxius.memorytraining.ui.game
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,8 +23,14 @@ fun Game(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center
     ) {
-        iconsRow.value?.randomizeIcons?.forEach{
-            Icon(imageVector = it, contentDescription = "")
+        iconsRow.value?.randomizeIcons?.forEach {
+            Icon(
+                modifier = Modifier.clickable {
+                    gameViewModel.checkUserInput(it)
+                },
+                imageVector = it,
+                contentDescription = ""
+            )
         }
     }
 }
