@@ -1,6 +1,7 @@
 package denys.diomaxius.memorytraining.ui.game
 
 import android.util.Log
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -14,6 +15,8 @@ class GameViewModel : ViewModel() {
     private val _iconsRow = MutableLiveData<RandomizeIcons>()
     val iconsRow: LiveData<RandomizeIcons> = _iconsRow
 
+
+
     init {
         generateIconsRow()
     }
@@ -22,15 +25,22 @@ class GameViewModel : ViewModel() {
         _iconsRow.value = randomizeIconsCreator.createRandomizeIcons()
     }
 
-    fun checkUserInput(icon : ImageVector) {
-        if (randomizeIconsCreator.passLevel()) {
+    fun shuffleIcons() {
+        _iconsRow.value = _iconsRow.value?.copy(
+            randomizeIcons = _iconsRow.value?.randomizeIcons?.shuffled()?.toMutableList() ?: mutableListOf()
+        )
+    }
+
+    fun checkUserInput(icon : ImageVector) : Boolean {
+        return if (randomizeIconsCreator.passLevel()) {
             generateIconsRow()
+            true
         } else {
             if (randomizeIconsCreator.checkUserInput(icon)) {
-                Log.i("Check User Input", "Right answer")
+                false
             } else {
-                Log.i("Check User Input", "Wrong answer")
                 generateIconsRow()
+                true
             }
         }
     }
