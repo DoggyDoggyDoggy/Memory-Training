@@ -15,13 +15,15 @@ class GameViewModel : ViewModel() {
     private val _iconsRow = MutableLiveData<RandomizeIcons>()
     val iconsRow: LiveData<RandomizeIcons> = _iconsRow
 
-
+    private val _userIconsRow = MutableLiveData<RandomizeIcons>()
+    val userIconsRow: LiveData<RandomizeIcons> = _userIconsRow
 
     init {
         generateIconsRow()
     }
 
     fun generateIconsRow() {
+        _userIconsRow.value = RandomizeIcons()
         _iconsRow.value = randomizeIconsCreator.createRandomizeIcons()
     }
 
@@ -37,6 +39,20 @@ class GameViewModel : ViewModel() {
             true
         } else {
             if (randomizeIconsCreator.checkUserInput(icon)) {
+                val updatedUserIcons = _userIconsRow.value?.randomizeIcons?.toMutableList()?.apply {
+                    add(icon)
+                } ?: mutableListOf(icon)
+                _userIconsRow.value = RandomizeIcons(randomizeIcons = updatedUserIcons)
+
+
+                _iconsRow.value = _iconsRow.value?.randomizeIcons?.toMutableList()?.apply {
+                    val lastIndex = lastIndexOf(icon)
+                    if (lastIndex != -1) removeAt(lastIndex)
+                }?.let {
+                    _iconsRow.value?.copy(
+                        randomizeIcons = it
+                    )
+                }
                 false
             } else {
                 generateIconsRow()
