@@ -1,6 +1,6 @@
 # Icon Match Game
 
-Icon Match Game is an Android application designed to challenge your memory and quick-thinking skills. Players must match icons in a shuffled grid, with increasing difficulty as the game progresses. This project was developed to enhance Android development skills using modern tools like Jetpack Compose and ViewModel.
+Icon Match Game is an Android application designed to challenge your memory and quick-thinking skills. This project was developed to enhance Android development skills using modern tools like Jetpack Compose and ViewModel.
 
 ## **Features**
 - **Interactive Gameplay:** Players match icons by tapping on them in a dynamic UI.
